@@ -44,35 +44,60 @@ class GetLocation extends Component {
         return <div>
             <Container fluid>{this.state.selectedState}
                 <Header as='h2'>Let us know your location</Header>
-                <div style={{margin:'10px'}}><Dropdown button
+                <div style={{margin:'10px'}}>
+                <Dropdown
+                    placeholder='select State'
+                    fluid
+                    selection
+                    options={stateOptions}
+                    onChange={(e,data)=>{
+                        // console.log(value)
+                        console.log(dist[data.value]);
+                        // this.setState({selectedState:data.value, isStateSelected:true})
+                        this.setState({selectedState:data.value, isStateSelected:true,districts: dist[data.value].map(dist=>{return {"value":dist, "text":dist}})})
+                        
+                    }}
+                />
+                {/* <Dropdown 
+                button
                 className='icon'
-                floating
+                fluid
                 labeled
                 icon='world' options={stateOptions} 
                 // search
-                // selected={stateOptions[1]}
+                // selected={{text:selectedState, value:selectedState}}
+                selection
+                value={{text:"this", value:"this"}}
                 // defaultValue={stateOptions[1].value}
                 text="select state"
                 onChange={(e,data)=>{
                     // console.log(value)
                     console.log(dist[data.value]);
                     // this.setState({selectedState:data.value, isStateSelected:true})
-                    this.setState({isStateSelected:true,districts: dist[data.value].map(dist=>{return {"value":dist, "text":dist}})})
+                    this.setState({selectedState:data.value, isStateSelected:true,districts: dist[data.value].map(dist=>{return {"value":dist, "text":dist}})})
                     
                 }
                 }   
-                /></div>
+                />   */}
+                </div>
                 {this.state.isStateSelected&&
                 <div>
-                    <Dropdown 
+                    <Dropdown
+                    placeholder='select district'
+                    fluid
+                    selection
+                    options={this.state.districts}
+  />
+                    {/* <Dropdown 
+                    style={{margin:'10px'}}
                 button
                 className='icon'
-                floating
+                fluid
                 labeled
                 options={this.state.districts} 
                 search
-text="select district"
-                />
+                text="select district"
+                /> */}
                 </div>
                 }
             </Container>
