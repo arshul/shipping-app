@@ -7,7 +7,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.crop {
+  border: 3px solid #559a17;
+  padding: 0.5rem;
+  width: 120px !important;
+  height:120px !important;}
+.selected{
+  border: 5px solid #395c79;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
