@@ -28,12 +28,13 @@ class SelectCrop extends Component {
     }
     onSubmit(){
         var cb = function (position) {
+            this.props.history.push('/result')
         console.log(position.coords.latitude)
         console.log(position.coords.longitude)
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCTJjplJxig0pgEXYVbyoL-_DCM6w3JFDI`)
         .then(res => res.json()).then(resp=>{
             console.log(resp)
-            const req = new Request("http://192.168.43.188:5000/api/v1/get-values")
+            const req = new Request("http://localhost:5000/api/v1/get-values")
             let x = resp.plus_code.compound_code.split(', ')[0].split(" ")
             console.log(x)
             let dat = {
@@ -50,14 +51,82 @@ class SelectCrop extends Component {
         let myInit = {  
             method: "POST",
             data: JSON.stringify(dat),
-            headers: {'content':'application/json'}
-            };
-        fetch(req,myInit).then(res=>res.json()).then(resp=>{console.log(resp)})
-        })
+            mode: 'cors',
+            headers: {'content':'application/json', 
+            'Access-Control-Allow-Origin':'*'
+
+        }
+                  };
+        resp = {
+            "error": false,
+            "message": "success",
+            "result": [
+                {
+                    "cost": 983.0879391482722,
+                    "distance": 81.92399492902268,
+                    "district": "Panchkula",
+                    "name": "Panchkul(Kalka)",
+                    "price": 1500,
+                    "profit": 21516.912060851726
+                },
+                {
+                    "cost": 173.85253110350266,
+                    "distance": 14.48771092529189,
+                    "district": "Yamuna Nagar",
+                    "name": "Jagadhri",
+                    "price": 1250,
+                    "profit": 18576.1474688965
+                },
+                {
+                    "cost": 173.85253110350266,
+                    "distance": 14.48771092529189,
+                    "district": "Yamuna Nagar",
+                    "name": "Mustafabad",
+                    "price": 1200,
+                    "profit": 17826.1474688965
+                },
+                {
+                    "cost": 173.85253110350266,
+                    "distance": 14.48771092529189,
+                    "district": "Yamuna Nagar",
+                    "name": "Radaur",
+                    "price": 1000,
+                    "profit": 14826.147468896497
+                },
+                {
+                    "cost": 173.85253110350266,
+                    "distance": 14.48771092529189,
+                    "district": "Ambala",
+                    "name": "Shahzadpur",
+                    "price": 1000,
+                    "profit": 14826.147468896497
+                },
+                {
+                    "cost": 983.0879391482722,
+                    "distance": 81.92399492902268,
+                    "district": "Kaithal",
+                    "name": "Cheeka",
+                    "price": 1000,
+                    "profit": 14016.912060851728
+                },
+                {
+                    "cost": 983.0879391482722,
+                    "distance": 81.92399492902268,
+                    "district": "Ambala",
+                    "name": "Ambala Cantt.",
+                    "price": 800,
+                    "profit": 11016.912060851728
+                }
+            ]
+        }
         
+        // fetch(req,myInit).then(res=>res.json()).then(resp=>{console.log(resp)})
+        })
+    
+                    
+
         }
         if (navigator.geolocation) {
-            console.log("in if")
             navigator.geolocation.getCurrentPosition(cb.bind(this));
         } else{
             this.props.history.push({path:'/locate',crop:this.state.crop,quantity:this.state.quantity})
