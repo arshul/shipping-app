@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Container, Header,Divider,Icon,Button, Image,Dropdown,Input } from 'semantic-ui-react'
 import {withRouter } from 'react-router-dom'
 const cropData = [
-    { "Onion": "https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fagrodaily.com%2Fwp-content%2Fuploads%2F2014%2F08%2Fwheatad1508.jpg&f=1" },
+    { "Wheat": "https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fagrodaily.com%2Fwp-content%2Fuploads%2F2014%2F08%2Fwheatad1508.jpg&f=1" },
     { "Rice": "https://32lxcujgg9-flywheel.netdna-ssl.com/wp-content/uploads/2016/12/brown-rice.jpg" },
-    { "Sugar": "https://www.pakissan.com/wp-content/uploads/2017/08/Sugarcane-A-Brief.jpg" },
-    { "Yam": "https://guardian.ng/wp-content/uploads/2017/05/cocoyam.jpg" }
+    { "Tomato": "http://telugu.v6news.tv/img/2016/08/tomato-crop.jpg" },
+    {"Onion": "https://www.gracegardenandhomestead.com/wp-content/uploads/2017/10/Onion-Bumper-Crop-500x263.jpg"},
+    {"Potato": "http://images.skymetweather.com/content/wp-content/uploads/2015/03/Potato-crop-in-uttar-pradesh-429x310.jpg"},
+    {"Brinjal": "https://www.planetnatural.com/wp-content/uploads/2015/05/gmo-eggplant.jpg"}
 ]
 const quantity=[
     {value:"0-10", text:"0-10" },
@@ -31,7 +33,7 @@ class SelectCrop extends Component {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCTJjplJxig0pgEXYVbyoL-_DCM6w3JFDI`)
         .then(res => res.json()).then(resp=>{
             console.log(resp)
-            const req = new Request("http://crop-prediction.ap-south-1.elasticbeanstalk.com/api/v1/get-values")
+            const req = new Request("http://192.168.43.188:5000/api/v1/get-values")
             let x = resp.plus_code.compound_code.split(', ')[0].split(" ")
             console.log(x)
             let dat = {
@@ -49,14 +51,13 @@ class SelectCrop extends Component {
             method: "POST",
             data: JSON.stringify(dat),
             headers: {'content':'application/json'}
-                  };
+            };
         fetch(req,myInit).then(res=>res.json()).then(resp=>{console.log(resp)})
         })
         
-                    
-
         }
         if (navigator.geolocation) {
+            console.log("in if")
             navigator.geolocation.getCurrentPosition(cb.bind(this));
         } else{
             this.props.history.push({path:'/locate',crop:this.state.crop,quantity:this.state.quantity})
