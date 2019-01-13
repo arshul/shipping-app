@@ -4,6 +4,7 @@ import './App.css';
 import { Switch, Route, BrowserRouter, Redirect, Link, withRouter } from 'react-router-dom'
 
 import GetLocation from './Components/Location'
+import Result from './Components/Result'
 import cropSelection from './Components/cropSelection';
 import SelectCrop from './Components/Crop';
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={SelectCrop} />
+            <Route exact path="/result" component={Result} />
             <Route exact path="/locate" component={GetLocation} />
             <Route exact path="/cropSelection" component={cropSelection} />
             <Route render={() => (
